@@ -13,18 +13,23 @@ class UserAPI extends DataSource {
   }
 
   async login({username, password}) {
-    return User.findOne({'username': username}, 'password', function(err, user) {
+    return User.findOne({username, password}, function(err, user) {
       if (err) throw new Error('未找到用户')
-      return user.password
     })
   }
 
-  async createUser({...args}) {
-    return User.create({createDate: new Date(), ...args})
+  async createUser({username, ...args}) {
+    const user = await this.findUser(username)
+    if (user) {
+      throw new Error('已存在相同用户名！')
+    }
+    return User.create({username, createDate: new Date(), ...args})
   }
 
-  async findUser() {
-    return this.collection.find()
+  async findUser({username}) {
+    return User.findOne({username}, function(err, person) {
+      if (err) throw new Error('未找到用户')
+    })
   }
 }
 

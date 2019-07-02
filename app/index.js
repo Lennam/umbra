@@ -7,12 +7,23 @@ const typeDefs = require('./scheme')
 const UserAPI = require('./datasources/user')
 const initDB = require('./database')
 const log4js = require('./logger')
+const koaJwt = require('koa-jwt')
+const jwt = require('jsonwebtoken')
+const {isValidUser} = require('./authentication')
+const { createKey } = require('./utils')
 
 initDB();
-
+const secretKey = createKey()
 
 // A map of functions which return data for the schema.
-
+const context = async ({ctx: {request}}) => {
+  const token = request.header.authorization;
+  const user = isValidUser(token, secretKey);
+  return {
+    user,
+    key: secretKey
+  };
+}
 const server = new ApolloServer({
   // These will be defined for both new or existing servers
   typeDefs,
@@ -20,12 +31,14 @@ const server = new ApolloServer({
   dataSources: () => ({
     // launchAPI: new LaunchAPI(),
     userAPI: new UserAPI()
-  })
+  }),
+  context,
 });
 
 const app = new Koa();
 
 app.use(logger())
+
 
 app.use(async(ctx, next) => {
   const start = new Date()
@@ -34,12 +47,12 @@ app.use(async(ctx, next) => {
   log4js.resLogger(ctx, ms)
 })
 
+server.applyMiddleware({ app }); 
+
 app.on('error', (err, ctx) => {
   log4js.errLogger(ctx, err)
   console.error('server error', err, ctx)
 });
-
-server.applyMiddleware({ app }); 
 
 app.listen({ port: 3000 }, () =>
   console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`)
