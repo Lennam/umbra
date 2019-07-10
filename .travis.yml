@@ -2,5 +2,5 @@ language: node_js
 node_js:
   - '10.16.0'
 sudo: required
-before_install: sudo pip install yarn
+before_install: sudo npm install yarn -g
 script: true
