@@ -12,6 +12,8 @@ const jwt = require('jsonwebtoken')
 const {isValidUser} = require('./authentication')
 const { createKey } = require('./utils')
 
+const port = process.env.PORT || 3000;
+
 initDB();
 const secretKey = createKey()
 
@@ -55,5 +57,5 @@ app.on('error', (err, ctx) => {
 });
 
 app.listen({ port: 3000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`)
+  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
 )
