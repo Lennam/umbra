@@ -6,7 +6,7 @@
   "author": "Leenam",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app/index.js"
+    "start": "pm2 start app/index.js"
   },
   "dependencies": {
     "apollo-datasource-rest": "^0.5.0",
