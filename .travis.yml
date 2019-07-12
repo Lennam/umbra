@@ -8,8 +8,6 @@ cache:
   directories:
   - node_modules
 before_install:
-- openssl aes-256-cbc -K $encrypted_c7e9f33dda9b_key -iv $encrypted_c7e9f33dda9b_iv
-  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 - openssl aes-256-cbc -K $encrypted_eb6a8731b1ef_key -iv $encrypted_eb6a8731b1ef_iv
   -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version version-number
