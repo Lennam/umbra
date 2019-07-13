@@ -2,9 +2,9 @@ sudo: required
 language: node_js
 node_js:
   - 10.16.0
-# branches:
-#   only:
-#     - next
+branches:
+  only:
+    - next
 cache:
   directories:
   - node_modules
