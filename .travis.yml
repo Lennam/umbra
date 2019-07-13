@@ -10,7 +10,7 @@ cache:
   - node_modules
 before_install:
   - openssl aes-256-cbc -K $encrypted_c7e9f33dda9b_key -iv $encrypted_c7e9f33dda9b_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
-  - chmod + x ./merge.sh
+  - chmod +x ./merge.sh
 install:
   - yarn
 after_success:
