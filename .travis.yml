@@ -3,7 +3,7 @@ node_js:
 - 10.16.0
 branches:
   only:
-    - master
+    - next
 cache:
   directories:
   - node_modules
@@ -17,4 +17,5 @@ after_success:
 - ssh ubuntu@13.112.54.35 -o StrictHostKeyChecking=no 'cd ~/usr/app/umbra && git pull
   && yarn && yarn start'
 script: true
-# after_success: 
+after_success: 
+  ./merge.sh
