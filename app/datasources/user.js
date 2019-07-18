@@ -1,6 +1,5 @@
-const {DataSource} = require('apollo-datasource')
+const { DataSource } = require('apollo-datasource')
 const User= require('../model/user')
-const koaJwt = require('koa-jwt')
 
 
 class UserAPI extends DataSource {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const { Schcema } = mongoose
+const { Schema } = mongoose
 
-const articalSchema = new Schcema({
+const articalSchema = new Schema({
   title: String,
   createDate: Date,
   content: String,

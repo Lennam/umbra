@@ -2,7 +2,8 @@ const { createToken } = require('../authentication')
 
 module.exports = {
   Query: {
-    users: (_, __, {dataSources}) => dataSources.userAPI.findUser(),
+    // User
+    users: async (_, __, {dataSources}) => dataSources.userAPI.findUser(),
     me: async (_, __, { user, dataSources }) => {
       const valid = await user
       if (!valid) {
@@ -15,12 +16,21 @@ module.exports = {
         createDate: userInfo.createDate,
         mail: userInfo.mail
       }
+    },
+
+    // Artical
+    artical: async (_, { id }, { dataSources }) => {
+      const artical = await dataSources.articalAPI.artical(id)
+      console.log(artical)
+      if (artical) return {
+        title: artical.title
+      }
     }
   },
   Mutation: {
+    // User
     createUser: async (_, {...args}, {dataSources}) => {
       const user = await dataSources.userAPI.createUser({...args})
-      console.log(user)
       if(user) return {
         user: user
       }
@@ -28,13 +38,21 @@ module.exports = {
     },
     login: async(_, {username, password}, {key, dataSources}) => {
       const result = await dataSources.userAPI.login({username, password})
-      console.log(result)
       if (password === result.password) return {
         message: '登录成功',
         success: true,
         token: createToken({key, username, password})
       }
-    }
+    },
+
+    // Artical
+    createArtical: async (_, {...args}, {dataSources}) => {
+      const artical = await dataSources.articalAPI.createArtical({...args})
+      if(artical) return {
+        title: artical.title
+      }
+      throw new Error('创建失败')
+    },
 
   }
 };

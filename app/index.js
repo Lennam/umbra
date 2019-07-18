@@ -4,7 +4,10 @@ const logger = require('koa-logger');
 const { ApolloServer, gql } = require('apollo-server-koa');
 const resolvers = require('./resolvers');
 const typeDefs = require('./scheme')
+
 const UserAPI = require('./datasources/user')
+const ArticalAPI = require('./datasources/artical')
+
 const initDB = require('./database')
 const log4js = require('./logger')
 const koaJwt = require('koa-jwt')
@@ -32,7 +35,8 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     // launchAPI: new LaunchAPI(),
-    userAPI: new UserAPI()
+    userAPI: new UserAPI(),
+    articalAPI: new ArticalAPI(),
   }),
   context,
 });
