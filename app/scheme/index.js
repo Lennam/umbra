@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql, AuthenticationError } = require('apollo-server');
 
 const typeDefs = gql`
 type Query {
@@ -6,7 +6,9 @@ type Query {
   user(id: ID!): User
   # Queries for the current user
   me: User
-  artical: User
+  artical: Artical
+  articals(pageIndex: Int!): ArticalList
+  authenticationError: String
 }
 
 type User {
@@ -19,15 +21,22 @@ type User {
 }
 
 type Artical {
-  id: ID!,
+  id: ID,
   title: String,
   content: String,
   createDate: String,
   category: [String]
 }
 
+type ArticalList {
+  pageIndex: Int
+  list: [Artical]
+}
+
 
 type Mutation {
+
+  # User
   createUser(
     username: String!,
     password: String!,
@@ -37,12 +46,20 @@ type Mutation {
 
   login(username: String!, password: String!): LoginResponse! # login token
 
+  # Artical
   createArtical(
     title: String!,
     content: String!,
     createDate: String!,
     category: [String]
   ): ArticalResponse!
+
+  deleteArtical(
+    id: String!
+  ): DeleteArticalResponse!
+
+  # hanlde Error
+  userInputError(input: String): String
 }
 
 # Response
@@ -60,8 +77,11 @@ type CreateUserResponse {
 }
 
 type ArticalResponse {
-  title: String
+  artical: Artical
+}
 
+type DeleteArticalResponse {
+  success: Boolean
 }
 `;
 

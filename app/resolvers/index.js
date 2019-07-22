@@ -10,7 +10,6 @@ module.exports = {
         throw new Error('您没有权限，请登录后再试！')
       }
       const userInfo = await dataSources.userAPI.findUser(valid)
-      console.log(userInfo)
       return {
         username: userInfo.username,
         createDate: userInfo.createDate,
@@ -21,11 +20,23 @@ module.exports = {
     // Artical
     artical: async (_, { id }, { dataSources }) => {
       const artical = await dataSources.articalAPI.artical(id)
-      console.log(artical)
       if (artical) return {
-        title: artical.title
+        artical
       }
-    }
+    },
+
+    articals: async(_, { pageIndex }, { dataSources }) => {
+      const articals = await dataSources.articalAPI.articals(pageIndex)
+      if (articals) return {
+        pageIndex,
+        list: articals
+      }
+    },
+
+    //  hanlde Error
+    authenticationError: (parent, args, context) => {
+      throw new AuthenticationError('您没有权限，请登录后再试！');
+    },
   },
   Mutation: {
     // User
@@ -49,9 +60,28 @@ module.exports = {
     createArtical: async (_, {...args}, {dataSources}) => {
       const artical = await dataSources.articalAPI.createArtical({...args})
       if(artical) return {
-        title: artical.title
+        artical
       }
       throw new Error('创建失败')
+    },
+
+    deleteArtical: async (_, {id}, {dataSources}) => {
+      const result  = await dataSources.articalAPI.deleteArtical(id)
+      console.log(result)
+      if (result) {
+        return {
+          success: true
+        }
+      }
+    },
+
+    //  handle Error
+    userInputError: (parent, args, context, info) => {
+      if (args.input !== 'expected') {
+        throw new UserInputError('Form Arguments invalid', {
+          invalidArgs: Object.keys(args),
+        });
+      }
     },
 
   }

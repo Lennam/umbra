@@ -12,19 +12,19 @@ class ArticalAPI extends DataSource {
   }
 
   async artical(id) {
-    return Artical.findById(id, function(err, artical) {
-      if (err) throw new Error('未找到文章')
-    })
+    return Artical.findById(id)
   }
 
   async articals() {
-    return Artical.find(null, null, {limit: 10}, function(err, list) {
-      if (err) throw new Error('查询失败')
-    })
+    return Artical.find(null, null, {limit: 10})
   }
 
   async createArtical({...args}) {
     return Artical.create({...args})
+  }
+
+  async deleteArtical(id) {
+    return Artical.deleteOne({_id:id})
   }
 }
 

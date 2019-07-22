@@ -23,7 +23,9 @@ const secretKey = createKey()
 // A map of functions which return data for the schema.
 const context = async ({ctx: {request}}) => {
   const token = request.header.authorization;
-  const user = isValidUser(token, secretKey);
+  const user = isValidUser(token, secretKey).catch(err => {
+    throw new Error('token 验证出错')
+  });
   return {
     user,
     key: secretKey
