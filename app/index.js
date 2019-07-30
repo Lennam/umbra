@@ -7,6 +7,7 @@ const typeDefs = require('./scheme')
 
 const UserAPI = require('./datasources/user')
 const ArticalAPI = require('./datasources/artical')
+const CategoryAPI = require('./datasources/category')
 
 const initDB = require('./database')
 const log4js = require('./logger')
@@ -39,6 +40,7 @@ const server = new ApolloServer({
     // launchAPI: new LaunchAPI(),
     userAPI: new UserAPI(),
     articalAPI: new ArticalAPI(),
+    categoryAPI: new CategoryAPI()
   }),
   context,
 });

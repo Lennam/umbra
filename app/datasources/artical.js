@@ -16,7 +16,7 @@ class ArticalAPI extends DataSource {
   }
 
   async articals() {
-    return Artical.find(null, null, {limit: 10})
+    return Artical.find(null, null, {limit: 10}).sort({"createDate": -1})
   }
 
   async createArtical({...args}) {

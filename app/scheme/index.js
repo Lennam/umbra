@@ -6,9 +6,12 @@ type Query {
   user(id: ID!): User
   # Queries for the current user
   me: User
-  artical: Artical
+  artical(id: String!): Artical
   articals(pageIndex: Int!): ArticalList
   authenticationError: String
+
+  # category
+  category: [Category]
 }
 
 type User {
@@ -25,12 +28,18 @@ type Artical {
   title: String,
   content: String,
   createDate: String,
-  category: [String]
+  category: String
 }
 
 type ArticalList {
   pageIndex: Int
   list: [Artical]
+}
+
+# category
+type Category {
+  value: String,
+  name: String
 }
 
 
@@ -51,12 +60,18 @@ type Mutation {
     title: String!,
     content: String!,
     createDate: String!,
-    category: [String]
+    category: String
   ): ArticalResponse!
 
   deleteArtical(
     id: String!
   ): DeleteArticalResponse!
+
+  # category
+  createCategory(
+    name: String!,
+    value: String!
+  ):createCategoryResponse!
 
   # hanlde Error
   userInputError(input: String): String
@@ -81,6 +96,10 @@ type ArticalResponse {
 }
 
 type DeleteArticalResponse {
+  success: Boolean
+}
+
+type createCategoryResponse {
   success: Boolean
 }
 `;

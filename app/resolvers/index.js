@@ -21,7 +21,10 @@ module.exports = {
     artical: async (_, { id }, { dataSources }) => {
       const artical = await dataSources.articalAPI.artical(id)
       if (artical) return {
-        artical
+          title: artical.title,
+          content: artical.content,
+          createDate: artical.createDate,
+          category: artical.category
       }
     },
 
@@ -30,6 +33,18 @@ module.exports = {
       if (articals) return {
         pageIndex,
         list: articals
+      }
+    },
+
+    // category
+    category: async(_, __, {user, dataSources}) => {
+      const valid = await user
+      if (!valid) {
+        throw new Error('您没有权限，请登录后再试！')
+      }
+      const category = await dataSources.categoryApi.category()
+      if (category) return {
+        category
       }
     },
 

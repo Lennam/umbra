@@ -5,11 +5,7 @@ const articalSchema = new Schema({
   title: String,
   createDate: Date,
   content: String,
-  comments: [{
-    username: String,
-    comment: String,
-    time: Date
-  }]
+  category: String,
 })
 
 module.exports = mongoose.model('Artical', articalSchema)
