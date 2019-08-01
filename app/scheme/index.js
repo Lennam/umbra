@@ -28,7 +28,14 @@ type Artical {
   title: String,
   content: String,
   createDate: String,
-  category: String
+  category: String,
+  pre: SimpleArical,
+  next: SimpleArical
+}
+
+type SimpleArical {
+  id: ID,
+  title: String,
 }
 
 type ArticalList {
@@ -58,7 +65,7 @@ type Mutation {
   # Artical
   createArtical(
     title: String!,
-    content: String!,
+    content: String,
     createDate: String!,
     category: String
   ): ArticalResponse!
@@ -71,7 +78,11 @@ type Mutation {
   createCategory(
     name: String!,
     value: String!
-  ):createCategoryResponse!
+  ):categoryResponse!
+
+  deleteCategory(
+    name: String
+  ):Boolean!
 
   # hanlde Error
   userInputError(input: String): String
@@ -99,8 +110,9 @@ type DeleteArticalResponse {
   success: Boolean
 }
 
-type createCategoryResponse {
-  success: Boolean
+type categoryResponse {
+  name: String
+  value: String
 }
 `;
 

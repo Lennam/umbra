@@ -20,15 +20,32 @@ module.exports = {
     // Artical
     artical: async (_, { id }, { dataSources }) => {
       const artical = await dataSources.articalAPI.artical(id)
+      const prePro = dataSources.articalAPI.preArtical(artical.createDate)
+      const nextPro = dataSources.articalAPI.nextArtical(artical.createDate)
+      const pre = await prePro
+      const next = await nextPro
+      console.log(pre, next)
       if (artical) return {
           title: artical.title,
           content: artical.content,
           createDate: artical.createDate,
-          category: artical.category
+          category: artical.category,
+          pre: pre[0] ? {
+            id: pre[0].id,
+            title: pre[0].title
+          } : null,
+          next: next[0] ? {
+            id: next[0].id,
+            title: next[0].title
+          }: null
       }
     },
 
-    articals: async(_, { pageIndex }, { dataSources }) => {
+    articals: async(_, { pageIndex }, { user, dataSources }) => {
+      const valid = await user
+      if (!valid) {
+        throw new AuthenticationError('您没有权限，请登录后再试！')
+      }
       const articals = await dataSources.articalAPI.articals(pageIndex)
       if (articals) return {
         pageIndex,
@@ -42,11 +59,11 @@ module.exports = {
       if (!valid) {
         throw new Error('您没有权限，请登录后再试！')
       }
-      const category = await dataSources.categoryApi.category()
-      if (category) return {
-        category
-      }
+      const category = await dataSources.categoryAPI.category()
+      if (category) return category
     },
+
+
 
     //  hanlde Error
     authenticationError: (parent, args, context) => {
@@ -82,11 +99,30 @@ module.exports = {
 
     deleteArtical: async (_, {id}, {dataSources}) => {
       const result  = await dataSources.articalAPI.deleteArtical(id)
-      console.log(result)
       if (result) {
         return {
           success: true
         }
+      }
+    },
+
+    //  CATEGORY
+    createCategory: async(_, {...args}, {user,dataSources}) => {
+      const valid = await user
+      if (!valid) {
+        throw new Error('您没有权限，请登录后再试！')
+      }
+      const category = await dataSources.categoryAPI.createCategory({...args})
+      if (category) return {
+        name: category.name,
+        value: category.value
+      }
+    },
+
+    deleteCategory: async(_, {name}, {user, dataSources}) => {
+      const result = await dataSources.categoryAPI.deleteCategory(name)
+      if (result.deletedCount === 1) {
+        return true
       }
     },
 

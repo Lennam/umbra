@@ -13,7 +13,7 @@ const initDB = require('./database')
 const log4js = require('./logger')
 const koaJwt = require('koa-jwt')
 const jwt = require('jsonwebtoken')
-const {isValidUser} = require('./authentication')
+const { isValidUser } = require('./authentication')
 const { createKey } = require('./utils')
 
 const port = process.env.PORT || 3000;
@@ -24,14 +24,15 @@ const secretKey = createKey()
 // A map of functions which return data for the schema.
 const context = async ({ctx: {request}}) => {
   const token = request.header.authorization;
-  const user = isValidUser(token, secretKey).catch(err => {
-    throw new Error('token 验证出错')
-  });
+  const user = token ? await isValidUser(token, secretKey).catch(err => {
+    throw new Error('token 验证出错: ' + err)
+  }) : null;
   return {
     user,
     key: secretKey
   };
 }
+
 const server = new ApolloServer({
   // These will be defined for both new or existing servers
   typeDefs,

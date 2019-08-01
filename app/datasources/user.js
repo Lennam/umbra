@@ -25,10 +25,8 @@ class UserAPI extends DataSource {
     return User.create({username, createDate: new Date(), ...args})
   }
 
-  async findUser({username}) {
-    return User.findOne({username}, function(err, person) {
-      if (err) throw new Error('未找到用户')
-    })
+  async findUser(username) {
+    return User.findOne({"username": username})
   }
 }
 

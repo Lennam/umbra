@@ -15,6 +15,14 @@ class ArticalAPI extends DataSource {
     return Artical.findById(id)
   }
 
+  async preArtical(createDate) {
+    return Artical.find({ 'createDate': { '$lt': createDate } }).sort({createDate: -1}).limit(1)
+  }
+
+  async nextArtical(createDate) {
+    return Artical.find({ 'createDate': { '$gt': createDate } }).sort({createDate: -1}).limit(1)
+  }
+
   async articals() {
     return Artical.find(null, null, {limit: 10}).sort({"createDate": -1})
   }
