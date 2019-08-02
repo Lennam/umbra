@@ -1,4 +1,4 @@
-const { gql, AuthenticationError } = require('apollo-server');
+const { gql, Error } = require('apollo-server');
 
 const typeDefs = gql`
 type Query {
@@ -8,7 +8,7 @@ type Query {
   me: User
   artical(id: String!): Artical
   articals(pageIndex: Int!): ArticalList
-  authenticationError: String
+  Error: String
 
   # category
   category: [Category]

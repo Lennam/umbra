@@ -22,10 +22,11 @@ initDB();
 const secretKey = createKey()
 
 // A map of functions which return data for the schema.
-const context = async ({ctx: {request}}) => {
+const context = async ({ctx: {request}, ctx}) => {
   const token = request.header.authorization;
   const user = token ? await isValidUser(token, secretKey).catch(err => {
-    throw new Error('token 验证出错: ' + err)
+    ctx.stauts = 401;
+    // throw new Error('token 验证出错: ' + err)
   }) : null;
   return {
     user,

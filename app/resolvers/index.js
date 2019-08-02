@@ -24,7 +24,6 @@ module.exports = {
       const nextPro = dataSources.articalAPI.nextArtical(artical.createDate)
       const pre = await prePro
       const next = await nextPro
-      console.log(pre, next)
       if (artical) return {
           title: artical.title,
           content: artical.content,
@@ -42,10 +41,10 @@ module.exports = {
     },
 
     articals: async(_, { pageIndex }, { user, dataSources }) => {
-      const valid = await user
-      if (!valid) {
-        throw new AuthenticationError('您没有权限，请登录后再试！')
-      }
+      // const valid = await user
+      // if (!valid) {
+      //   throw new Error('您没有权限，请登录后再试！')
+      // }
       const articals = await dataSources.articalAPI.articals(pageIndex)
       if (articals) return {
         pageIndex,
@@ -55,10 +54,10 @@ module.exports = {
 
     // category
     category: async(_, __, {user, dataSources}) => {
-      const valid = await user
-      if (!valid) {
-        throw new Error('您没有权限，请登录后再试！')
-      }
+      // const valid = await user
+      // if (!valid) {
+      //   throw new Error('您没有权限，请登录后再试！')
+      // }
       const category = await dataSources.categoryAPI.category()
       if (category) return category
     },
@@ -66,8 +65,8 @@ module.exports = {
 
 
     //  hanlde Error
-    authenticationError: (parent, args, context) => {
-      throw new AuthenticationError('您没有权限，请登录后再试！');
+    Error: (parent, args, context) => {
+      throw new Error('您没有权限，请登录后再试！');
     },
   },
   Mutation: {
