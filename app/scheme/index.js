@@ -7,7 +7,7 @@ type Query {
   # Queries for the current user
   me: User
   artical(id: String!): Artical
-  articals(pageIndex: Int!): ArticalList
+  articals(pageIndex: Int!, category: String): ArticalList
   Error: String
 
   # category

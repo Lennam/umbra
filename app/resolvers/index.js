@@ -40,12 +40,12 @@ module.exports = {
       }
     },
 
-    articals: async(_, { pageIndex }, { user, dataSources }) => {
+    articals: async(_, { pageIndex, category }, { user, dataSources }) => {
       // const valid = await user
       // if (!valid) {
       //   throw new Error('您没有权限，请登录后再试！')
       // }
-      const articals = await dataSources.articalAPI.articals(pageIndex)
+      const articals = await dataSources.articalAPI.articals(pageIndex, category)
       if (articals) return {
         pageIndex,
         list: articals

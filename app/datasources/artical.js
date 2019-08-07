@@ -23,7 +23,10 @@ class ArticalAPI extends DataSource {
     return Artical.find({ 'createDate': { '$gt': createDate } }).sort({createDate: -1}).limit(1)
   }
 
-  async articals() {
+  async articals(pageIndex, category) {
+    if (category) {
+      return Artical.find({category}, null, {limit: 10}).sort({'createDate': -1})
+    }
     return Artical.find(null, null, {limit: 10}).sort({"createDate": -1})
   }
 
