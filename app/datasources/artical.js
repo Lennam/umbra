@@ -34,6 +34,10 @@ class ArticalAPI extends DataSource {
     return Artical.create({...args})
   }
 
+  async updateArtical({id, ...args}) {
+    return Artical.findByIdAndUpdate({_id: id}, {...args}, {new : true})
+  }
+
   async deleteArtical(id) {
     return Artical.deleteOne({_id:id})
   }

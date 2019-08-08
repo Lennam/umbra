@@ -70,6 +70,14 @@ type Mutation {
     category: String
   ): ArticalResponse!
 
+  updateArtical(
+    id: String!,
+    title: String,
+    content: String,
+    createDate: String,
+    category: String
+  ): ArticalResponse!
+
   deleteArtical(
     id: String!
   ): DeleteArticalResponse!

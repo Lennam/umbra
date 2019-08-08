@@ -25,6 +25,7 @@ module.exports = {
       const pre = await prePro
       const next = await nextPro
       if (artical) return {
+          id: artical.id,
           title: artical.title,
           content: artical.content,
           createDate: artical.createDate,
@@ -88,12 +89,28 @@ module.exports = {
     },
 
     // Artical
-    createArtical: async (_, {...args}, {dataSources}) => {
+    createArtical: async (_, {...args}, {user, dataSources}) => {
+      const valid = await user
+      if (!valid) {
+        throw new Error('您没有权限，请登录后再试！')
+      }
       const artical = await dataSources.articalAPI.createArtical({...args})
       if(artical) return {
         artical
       }
       throw new Error('创建失败')
+    },
+
+    updateArtical: async(_, {...args}, {user, dataSources}) => {
+      const valid = await user
+      if (!valid) {
+        throw new Error('您没有权限，请登录后再试！')
+      }
+      const artical = await dataSources.articalAPI.updateArtical({...args})
+      if(artical) return {
+        artical
+      }
+      throw new Error('更新失败')
     },
 
     deleteArtical: async (_, {id}, {dataSources}) => {
