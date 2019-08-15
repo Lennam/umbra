@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { Schema } = mongoose
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 let log = new Schema({
   level: {type: String},
@@ -18,5 +18,5 @@ let log = new Schema({
   }
 }, {
   versionKey: false
-})
-module.exports = mongoose.model('Logs', log)
+});
+module.exports = mongoose.model('Logs', log);

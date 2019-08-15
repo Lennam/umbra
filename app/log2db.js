@@ -1,4 +1,4 @@
-const Logs = require('./model/log')
+const Logs = require('./model/log');
 
 let log2db = (msg, level, info) => {
     let log = {
@@ -16,9 +16,9 @@ let log2db = (msg, level, info) => {
                 body: JSON.stringify(info.response.body)
             }
         }
-    }
-    Logs.create(log, (err, res) => {
-        if(err) {throw new Error(err)}
-    })
-}
-module.exports = log2db
+    };
+    Logs.create(log, (err) => {
+        if(err) {throw new Error(err);}
+    });
+};
+module.exports = log2db;

@@ -7,6 +7,6 @@ const userSchema = new Schema({
   createDate: Date,
   mail: String,
   type: Number,
-})
+});
 
 module.exports = mongoose.model('User', userSchema);

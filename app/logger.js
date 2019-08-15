@@ -1,8 +1,25 @@
-const log4js = require('log4js')
-const log2db = require('./log2db')
-let logger = {}
-let errorLogger = log4js.getLogger('error')
-let resLogger = log4js.getLogger('response')
+/* eslint-disable no-undef */
+const log4js = require('log4js');
+const log2db = require('./log2db');
+// let logger = {};
+let errorLogger = log4js.getLogger('error');
+let resLogger = log4js.getLogger('response');
+
+const formatError = (ctx, err,costTime) => {
+  let method = ctx.method;
+  let url = ctx.url;
+  let body = ctx.request.body;
+  // let userAgent = ctx.header.userAgent;
+  return {method, url, body, costTime, err};
+};
+
+const formatRes = (ctx,costTime) => {
+  let method = ctx.method;
+  let url = ctx.url;
+  let body = ctx.request.body;
+  let response = ctx.response;
+  return {method, url, body, costTime, response};
+};
 
 log4js.configure({
     appenders: {
@@ -29,38 +46,21 @@ log4js.configure({
         default: { appenders: ['response'], level: 'info'}
     },
     replaceConsole: true
-})
+});
 
 // 封装错误日志
 log4js.errLogger = (ctx, error, resTime) => {
   if(ctx && error) {
-      log2db('ErrorRequest', 'error', formatError(ctx, error, resTime))
-      errorLogger.error(formatError(ctx, error, resTime))
+      log2db('ErrorRequest', 'error', formatError(ctx, error, resTime));
+      errorLogger.error(formatError(ctx, error, resTime));
   }
-}
+};
 // 封装相应日志
 log4js.resLogger = (ctx, resTime) => {
   if(ctx) {
-      log2db('RequestInfo', 'info', formatRes(ctx, resTime))
-      resLogger.info(formatRes(ctx, resTime))
+      log2db('RequestInfo', 'info', formatRes(ctx, resTime));
+      resLogger.info(formatRes(ctx, resTime));
   }
-}
+};
 
-
-const formatError = (ctx, err,costTime) => {
-  let method = ctx.method
-  let url = ctx.url
-  let body = ctx.request.body
-  let userAgent = ctx.header.userAgent
-  return {method, url, body, costTime, err}
-}
-
-const formatRes = (ctx,costTime) => {
-  let method = ctx.method
-  let url = ctx.url
-  let body = ctx.request.body
-  let response = ctx.response
-  return {method, url, body, costTime, response}
-}
-
-module.exports = log4js
+module.exports = log4js;
