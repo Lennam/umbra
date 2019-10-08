@@ -15,7 +15,7 @@ install:
   - yarn
 after_success:
   - chmod 600 ~/.ssh/id_rsa
-  - ssh ubuntu@13.112.54.35 -o StrictHostKeyChecking=no 'cd ~/usr/app/umbra && git pull
+  - ssh ubuntu@54.65.82.97 -o StrictHostKeyChecking=no 'cd ~/usr/app/umbra && git pull
     && yarn && pm2 restart index'
 script: true
 # after_success: 
