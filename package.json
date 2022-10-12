@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "apollo-datasource-rest": "^0.5.0",
-    "apollo-server": "^2.4.8",
+    "apollo-server": "^2.25.4",
     "apollo-server-koa": "^2.4.8",
     "bcrypt": "^3.0.5",
     "cryptiles": "^4.1.3",
